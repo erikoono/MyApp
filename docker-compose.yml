@@ -1,0 +1,42 @@
+services:
+  app:
+    build: ./build
+    container_name: app
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./app:/usr/local/src/app
+    tty: true
+  oracle:
+    image: oracle/database:19.3.0-ee
+    container_name: oracle
+    environment:
+      - ORACLE_CHARACTERSET=AL32UTF8
+      - NLS_LANG=Japanese_Japan.AL32UTF8
+    ports:
+      - 1521:1521
+      - 5500:5500
+    volumes:
+      - ./oradata:/opt/oracle/oradata
+      - ./startup:/opt/oracle/scripts/startup
+  mysql:
+    platform: linux/amd64
+    image: mysql:8.0.27
+    container_name: mysql
+    user: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    restart: always
+  # cli:
+  #   platform: linux/amd64
+  #   image: mysql:8.0.27
+  #   networks:
+  #     - mysql-network
+  #   command: mysql -hmysql -uuser -ppassword db
+
+networks:
+  mysql-network:
+    driver: bridge
