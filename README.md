@@ -1,4 +1,4 @@
-# M2MacでDocker on Lima環境構築
+# M2MacでDocker環境構築
 
 ## インストール
 1. Rosettaインストール
